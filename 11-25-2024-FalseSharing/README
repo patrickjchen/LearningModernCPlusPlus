@@ -1,0 +1,35 @@
+This is from https://www.163.com/dy/article/JG5V0T2R0518R7MO.html
+False sharing, lock contention (mutex vs atomics)
+Notice that google benchmark is used.
+
+
+false_sharing.png---diagram to illustrate false sharing, CPU/cache/memory/threads
+
+slice_shared.cpp/slice_no_shared.cpp with/without using shared_ptr
+false_sharing.cpp/false_sharing_padded.cpp  with/without padding
+SIMPLE/simple_false_sharing.cpp, SIMPLE/fix_simple_false_sharing.cpp simplest code to illstrate false sharing
+
+SpinLock_Benchmark_NoCompete.cpp              SpinLock_Benchmark_WithCompete.cpp
+SpinLock_Benchmark_NoCompete_ShortAction.cpp  SpinLock_Benchmark_WithCompete_ShortAction.cpp
+As the name suggests, these are about comparison of using atomic for SpinLock vs mutex. They shows that atomics is a 
+luttle slower.
+However I have doubts, it seems that the autor does not know that there are methods wait()/notify() for atomics also. 
+(will need to revisit this)
+
+LinkedList_BenchMark.cpp  LinkedList_EpochBasedReclaim.cpp
+are for linked list. The author also compared using EBR (Epoch based reclaimation) vs not using it. However the code crashed for me.
+
+spin_lock.h --- using atomic for SPinLock
+ebr.h--- implementation of Epoch Based Reclaimation
+
+CMakeLists.txt is for cmake
+just do
+mkdir build
+cd  build
+cmake ..
+make
+
+and you may do ln -sf file main_benchmark.cpp when you want to test any of the benchmark
+
+
+
